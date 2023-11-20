@@ -1,0 +1,23 @@
+input:
+each command line argument is an element in a reverse polish expression:
+2 3 4 + *
+2 is a command line arg
+3 is a command line arg
+4 is a command line arg
++ is a command line arg ...
+
+output:
+the result of expression evaulation
+
+steps:
+-iterate over the command line args:
+ -if current arg is digit:
+  -convert current arg to a number
+  -push the digit into the stack
+ -else if current arg is operator:
+  -pop 2 numbers from stack
+  -identify the operation to be performed
+  -perform the operation
+  -push the result back to stack
+-pop the last value from stack
+-return that poped value as the result

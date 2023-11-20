@@ -1,0 +1,8 @@
+convert integer to asci
+input:
+int: number to convert
+char*: address to character array to hold the 
+output:
+no output
+side effect:
+modifies

@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_CHAR_LEN 100
+char buffer[MAX_CHAR_LEN];
+int bufft = 0;
+
+int getch(void) {
+  --bufft;
+  return (bufft < 0) ? getchar() : buffer[bufft];
+}
+
+void ungetch(int c) {
+  if(bufft < MAX_CHAR_LEN) {
+    buffer[bufft++] = c;
+  }
+}
+
+void ungets(char s[]) {
+  int i = 0;
+
+  while(s[i] != '\0') {
+    ungetch(s[i]);
+    ++i;
+  }
+}
+
+int main(void) {
+  int c, i = 0;
+  buffer[MAX_CHAR_LEN];
+  memset(buffer, 0, MAX_CHAR_LEN);
+
+  while((c = getch()) != EOF) {
+    buffer[i] = c;
+    ++i;
+  }
+
+  ungetch(c);
+
+  c = getch();
+
+  printf("%d\n", c);
+}

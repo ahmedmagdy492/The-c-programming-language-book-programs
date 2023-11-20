@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <string.h>
+
+void itoa_(char*, int);
+void rev(char*);
+
+int main() {
+  int number = 123;
+  char s[4];
+
+  itoa_(s, number);
+  
+  printf("%s\n", s);
+}
+
+void itoa_(char* s, int n) {
+  
+}
+
+void rev(char* s) {
+  char *t = s + strlen(s) - 1;
+  
+  for(;s <= t; ++s, --t) {
+    char c = *s;
+    *s = *t;
+    *t = c;
+  }
+}

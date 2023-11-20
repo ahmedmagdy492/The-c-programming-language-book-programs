@@ -1,0 +1,16 @@
+input:
+-line: char*
+-line len: int
+
+steps:
+-create local buffer
+-iterate over the input buffer:
+ -if cur char is space:
+  -iterate from the cur char to tab width:
+   -if this char is not space:
+    -break from the inner loop
+  -if counter < tab width-1:
+   -place the current char as it's
+  -else:
+   -place \t in the local buffer
+-print local buffer

@@ -1,0 +1,9 @@
+#include <stdio.h>
+
+#define PI 3.14
+#define C_AREA(r) PI*r
+
+int main() {
+  int area = C_AREA(1);
+  printf("%d\n", area);
+}

@@ -1,0 +1,12 @@
+convert integer to asci
+input:
+int n: number to convert
+char* s: address to character array to hold the string representation of the input number
+output:
+no output
+
+steps:
+-get n without the last number by dividing n by 10 and store it in the qotient q
+-if q > 0:
+    -get the reminder r by getting the modulos of n by 10 and store it in r
+    -call myself with q as n

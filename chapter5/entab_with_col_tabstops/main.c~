@@ -1,0 +1,66 @@
+#include <stdio.h>
+#define MAX_BUFF_LEN 100000
+#define TAB_WIDTH 4
+
+int get_line(char* s);
+void entab(char* input);
+
+int main(int argc, char* argv[]) {
+  int c, i = 0;
+  char buffer[MAX_BUFF_LEN];
+  
+  while((c = getchar()) > 0) {
+    if(i < (MAX_BUFF_LEN - 1))
+      buffer[i++] = c;
+  }
+
+  buffer[i] = '\0';
+
+  entab(buffer);
+}
+
+void entab(char* input) {
+  char buff[MAX_BUFF_LEN];
+  int i = 0;
+
+  while(*input != '\0') {
+    if(*input == ' ') {
+      int counter = 1;
+      while(*(input+counter) == ' ') {
+	++counter;
+      }
+      if(counter == TAB_WIDTH) {
+	buff[i++] = '|';
+	input += counter-1;
+      }
+      else {
+	buff[i++] = *input;
+      }
+    }
+    else {
+      buff[i++] = *input;
+    }
+    ++input;
+  }
+  buff[i] = '\0';
+
+  printf("%s", buff);
+}
+
+int get_line(char* s) {
+  int c = 0, len = 0;
+
+  while((c = getchar()) != EOF && c != '\n') {
+    *s++ = c;
+    ++len;
+  }
+
+  if(c == EOF)
+    return EOF;
+
+  *s++ = '\n';
+  *s = '\0';
+  len += 2;
+
+  return len;
+}

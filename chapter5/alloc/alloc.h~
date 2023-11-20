@@ -1,0 +1,19 @@
+#define MAX_MEM 1000
+
+char arr[MAX_MEM];
+int top = 0;
+
+void* alloc(int n) {
+  if(n < MAX_MEM) {
+    top += n;
+    return arr+n;
+  }
+
+  return NULL;
+}
+
+void afree(void* arr) {
+  if(arr != NULL) {
+    
+  }
+}

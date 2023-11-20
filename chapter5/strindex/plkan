@@ -1,0 +1,13 @@
+input:
+char* s: whole string
+char* t: substring to look for
+
+output:
+int: index of first character of t found in s or -1 if not found
+
+steps:
+-iterate over s:
+ -s[i] = t[j]:
+  -start comparing s with t starting from s[i] until t ends
+    - if found return i
+-return -1

@@ -1,0 +1,24 @@
+#include <stdio.h>
+
+void itoa_(int, char[]);
+
+int main() {
+	char s[4];
+	itoa_(123, s);
+
+	printf("%s\n", s);
+}
+
+void itoa_(int n, char s[]) {
+	int qotient = n / 10;
+	int reminder = n % 10;
+	int i = 0;
+
+	while(qotient > 0) {
+		s[i++] = '0' + reminder;
+		int temp = qotient / 10;
+		reminder = qotient % 10;
+		qotient = temp;
+	}
+	s[i] = '\0';	
+}

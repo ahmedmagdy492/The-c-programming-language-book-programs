@@ -1,0 +1,90 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAXLINE 1000
+#define NO_LINES 100
+
+int get_line(char* s);
+void match_pattern(char lines[][MAXLINE], int nlines, char* pattern, char* out);
+void inverse_lines(char lines[][MAXLINE], int nlines, char* pattern, char* out);
+void add_lineno(char lines[][MAXLINE], int nlines, char* pattern, char* out);
+
+int main(int argc, char* argv[]) {
+
+  if(argc >= 2) {
+    char line[MAXLINE];
+    char lines[NO_LINES][MAXLINE];
+    char output[NO_LINES*MAXLINE];
+    int i, nlines = 0, result;
+  
+    while((result = get_line(line)) > 0) {
+      strcpy(lines[nlines++], line);
+    }
+
+    if(result == EOF) {
+      for (i = 1; i < argc-1; ++i) {
+	if(strcmp(argv[i], "-x") == 0) {
+	  inverse_lines(lines, nlines, argv[argc-1], output);
+	}
+	else if(strcmp(argv[i], "-n") == 0) {
+	  add_lineno(lines, nlines, argv[argc-1], output);
+	}
+	else {
+	  match_pattern(lines, nlines, argv[argc-1], output);
+	}
+      }
+      printf("%s\n", output);
+    }
+  }
+  else {
+    printf("Usage: %s pattern\n", argv[0]);
+  }
+}
+
+void add_lineno(char lines[][MAXLINE], int nlines, char* pattern, char* out) {
+  int i, offset = 0;
+
+  for(i = 0; i < nlines; ++i) {
+    if(strcmp(lines[i], out+offset) == 0) {
+      offset += strlen(lines[i]);
+    }
+  }
+}
+
+void inverse_lines(char lines[][MAXLINE], int nlines, char* pattern, char* out) {
+  int i, offset = 0;
+
+  for(i = 0; i < nlines; ++i) {
+    if(strstr(lines[i], pattern) == NULL) {
+      strcpy(out+offset, lines[i]);
+      offset += strlen(lines[i]);
+    }
+  }
+}
+
+void match_pattern(char lines[][MAXLINE], int nlines, char* pattern, char* out) {
+  int i, offset = 0;
+
+  for(i = 0;i < nlines; ++i) {
+    if(strstr(lines[i], pattern) != NULL) {
+      strcpy(out+offset, lines[i]);
+      offset += strlen(lines[i]);
+    }
+  }
+}
+
+int get_line(char* s) {
+  int c = 0;
+
+  while((c = getchar()) != EOF && c != '\n') {
+    *s++ = c;
+  }
+
+  if(c == EOF)
+    return EOF;
+
+  *s++ = '\n';
+  *s = '\0';
+
+  return c;
+}

@@ -1,0 +1,57 @@
+#include <stdio.h>
+
+#define MAX_LINE 1000
+#define NO_LINES 100
+#undef getline
+
+void sort(char** lines, int lines_count);
+int get_line(char* line);
+
+int main(int argc, char** argv) {
+  if(argc == 1) {
+    char line1[MAX_LINE];
+    char* lines[NO_LINES] = {line1};
+    int i = 0;
+
+    while((get_line(lines[i++]) != EOF)) {
+      ++i;
+      if(i == NO_LINES) {
+	break;
+      }
+      char line[MAX_LINE];
+      lines[i] = line;
+    }
+    
+    sort(lines, i);
+
+    for(i = 0; i < 2; ++i) {
+      printf("%s\n", lines[i]);
+    }
+  }
+  else {
+    // TBD: accept files
+  }
+}
+
+int get_line(char* line) {
+  int c;
+
+  while((c = getchar()) != '\n' && c != EOF)
+    *line++ = c;
+
+  return c;
+}
+
+void sort(char** lines, int lines_count) {
+  int i, j;
+
+  for(i = 0; i < lines_count; ++i) {
+    for(j = i+1; j < lines_count; ++j) {
+      if(*lines[i] > *lines[j]) {
+	char* temp = lines[i];
+	lines[i] = lines[j];
+	lines[j] = temp;
+      }
+    }
+  }
+}

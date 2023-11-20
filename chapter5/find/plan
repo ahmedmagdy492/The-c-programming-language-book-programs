@@ -1,0 +1,24 @@
+descirption:
+i want to take a pattern and search for that pattern specifically in the prompt the user enters
+
+input:
+pattern: string (last command line argument)
+
+output format:
+prints the line that contains that pattern immediatly after the user hitting enter 
+
+steps:
+-read the pattern from the command line args
+-detect whether the optional argument was provided or not
+-set the approriate flags accordingly
+-read line from stdin
+-if invert flag is set:
+ -if line does not contain pattern:
+  -if line no flag is set:
+    -print line no
+  -print line
+-else:
+ -if line contains pattern:
+  -if line no flag is set:
+   -print line no
+  -print line

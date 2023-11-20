@@ -1,0 +1,16 @@
+input:
+- number of lines to print option (command line): string
+- number of lines to print value (command line): int
+
+output:
+print the last n lines to stdout
+
+steps:
+-read -n optional argument from command line input
+-ensure that -n argument has a valid int value
+-if no argument was provided at all:
+ - make n = 10
+-read line from stdin
+-copy read line to buffer+offset position in the buffer array
+-if the program encounters an EOF:
+ - print the last n lines
