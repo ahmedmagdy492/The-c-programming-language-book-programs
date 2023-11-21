@@ -3,49 +3,58 @@
 #include <string.h>
 #define MAX_BUFF_LEN 100000
 #define TAB_WIDTH 4
-#define MAX_TAB_STOPS 150
+#define M 1
+#define N 8
 
 int get_line(char* s);
-void entab(char* input, int tabstops[], int ntabstops);
+void entab(char* input, int ncols, int startcol);
 
 int main(int argc, char* argv[]) {
-  int c, i = 0, isTabStopsProvided = 0;
-  int tabStops[MAX_TAB_STOPS], ntabstops = 0;
+  int c, i = 0, m = M, n = N;
+  int isNPassed = 0, isMPassed = 0, nArgIndex = -1, mArgIndex = -1;
 
-  if(argc == 3) {
+  if(argc >= 2) {
     // parsing arguments
     int counter;
 
     for(counter = 1; counter < argc; ++counter) {
       char* pchar = argv[counter];
 
-      while(*pchar != '\0' && !isTabStopsProvided) {
+      while(*pchar != '\0') {
 	if(*pchar == '-') {
-	  // there are some command line arguments passed
+	  // there are some command line arguments passed starting with -
 	  switch(*++pchar) {
-	  case 'l':
-	    isTabStopsProvided = 1;
+	  case 'm':
+	    isMPassed = 1;
+	    mArgIndex = counter+1;
 	    break;
 	  default:
 	    printf("Invalid argument: -%c\n", *pchar);
 	    return 1;
 	  }
 	}
+	else if(*pchar == '+') {
+	  // there are some command line arguments passed starting with -
+	  switch(*++pchar) {
+	  case 'n':
+	    isNPassed = 1;
+	    nArgIndex = counter+1;
+	    break;
+	  default:
+	    printf("Invalid argument: +%c\n", *pchar);
+	    break;
+	  }
+	}
 	++pchar;
-      }
-
-      if(isTabStopsProvided) {
-	++counter;
-	break;
       }
     }
 
     // processing the arguments values
-    char* strptr = strtok(argv[counter], ",");
-
-    while(strptr != NULL) {
-      tabStops[ntabstops++] = atoi(strptr);
-      strptr = strtok(NULL, ",");
+    if(mArgIndex != -1) {
+      m = atoi(argv[mArgIndex]);
+    }
+    if(nArgIndex != -1) {
+      n = atoi(argv[nArgIndex]);
     }
   }
   
@@ -58,25 +67,19 @@ int main(int argc, char* argv[]) {
 
   buffer[i] = '\0';
 
-  if(isTabStopsProvided) {
-    entab(buffer, tabStops, ntabstops);
-  }
+  entab(buffer, n, m);
 }
 
-void entab(char* input, int tabstops[], int ntabstops) {
+void entab(char* input, int n, int m) {
   char buff[MAX_BUFF_LEN];
-  int i = 0, j = 0;
+  int i = 0, j = 0, nextTabStop = m+n;
 
   while(input[j] != '\0') {
     if(input[j] == ' ') {
-      int counter = 1, isTabStop = 0;
-      while(input[j+counter] == ' ' && !isTabStop) {
-	int tcounter;
-	for(tcounter = 0; tcounter < ntabstops; ++tcounter) {
-	  if((j+counter) == tabstops[tcounter]) {
-	    isTabStop = 1;
-	    break;
-	  }
+      int counter = 1;
+      while(input[j+counter] == ' ') {
+        if(j+counter == nextTabStop) {
+	  break;
 	}
 	++counter;
       }
