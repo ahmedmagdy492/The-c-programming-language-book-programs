@@ -1,0 +1,8 @@
+input:
+char** lines
+
+steps:
+-iterate over the array from i = 0 to end:
+ -iterate over the array from j = i+1 to end:
+  -if :
+   -
