@@ -3,16 +3,19 @@
 #include <string.h>
 #include <ctype.h>
 
+#define NUMERIC 1
+#define DIR 2
+#define FOLD 3
+#define REV 4
+
 #define MAX_LINE 1000
 #define NO_LINES 100
 #undef getline
 
-enum SortFlags {
-  Fold = 1,
-  Rev
-};
+int pos1 = 0;
+int pos2 = 0;
 
-void sort(char** lines, int lines_count, int (*comp)(void*, void*), enum SortFlags);
+void sort(char** lines, int lines_count, int (*comp)(void*, void*), int);
 int get_line(char* line);
 void swap(void** p1, void**p2);
 void strlower(char* s);
@@ -24,28 +27,27 @@ int main(int argc, char** argv) {
   if(argc >= 1) {
     char *line1 = (char*)malloc(sizeof(char)*MAX_LINE);
     char* lines[NO_LINES] = { line1 };
-    int i = 0, numeric = 0, dir = 0;
-    enum SortFlags sortFlags = 0;
+    int i = 0, sortFlags = 0;
 
     if(argc > 1) {
       int counter;
       for(counter = 1; counter < argc; ++counter) {
-        if(*argv[counter] == '-') {
+        if(*argv[counter] == '-' && !isdigit(*(1+argv[counter]))) {
 	  char* pchar = argv[counter];
 	  
 	  while(*++pchar != '\0') {
 	     switch(*pchar) {
 	     case 'n':
-	       numeric = 1;
+	       sortFlags |= NUMERIC;
 	       break;
 	     case 'r':
-	       sortFlags |= Rev;
+	       sortFlags |= REV;
 	       break;
 	     case 'f':
-	       sortFlags |= Fold;
+	       sortFlags |= FOLD;
 	       break;
 	     case 'd':
-	       dir = 1;
+	       sortFlags |= DIR;
 	       break;
 	     default:
 	       printf("invalid argument -%c\n", *pchar);
@@ -53,7 +55,18 @@ int main(int argc, char** argv) {
 	     }
 	  }
 	}
+	else if(*argv[counter] == '-') {
+	  pos2 = atoi(1+argv[counter]);
+	}
+	else if(*argv[counter] == '+') {
+	  pos1 = atoi(1+argv[counter]);
+	}
       }
+    }
+
+    if(pos2 < pos1) {
+      printf("Invalid positions\n");
+      return 1;
     }
 
     while((get_line(lines[i++]) != EOF)) {
@@ -63,10 +76,12 @@ int main(int argc, char** argv) {
       }
     }
 
-    if(numeric) {
+    --i;
+
+    if(sortFlags & NUMERIC) {
       sort(lines, i, (int (*)(void*, void*))numcmp, sortFlags);
     }
-    else if(dir) {
+    else if(sortFlags & DIR) {
       sort(lines, i, (int (*)(void*, void*))dircmp, sortFlags);
     }
     else {
@@ -98,32 +113,39 @@ int get_line(char* line) {
   return c;
 }
 
-void sort(char** lines, int lines_count, int (*cmp)(void*, void*), enum SortFlags flags) {
+void sort(char** lines, int lines_count, int (*cmp)(void*, void*), int flags) {
   int i, j;
+  extern void substr(char* s, char* out, int start, int end);
   
   for(i = 0; i < lines_count; ++i) {
     for(j = i+1; j < lines_count; ++j) {
-      if((flags & Rev) && (flags & Fold)) {
-	strlower(lines[i]);
-	strlower(lines[j]);
-	if(cmp(lines[i], lines[j]) < 0) {
+      char linesI[MAX_LINE], linesJ[MAX_LINE];
+      substr(lines[i], linesI, pos1, pos2 == 0 ? strlen(lines[i]) : pos2);
+      substr(lines[j], linesJ, pos1, pos2 == 0 ? strlen(lines[j]) : pos2);
+
+      printf("linesI = %s, linesJ = %s\n", linesI, linesJ);
+      
+      if((flags & REV) && (flags & FOLD)) {
+	strlower(linesI);
+	strlower(linesJ);
+	if(cmp(linesI, linesJ) < 0) {
 	   swap((void**)&lines[i], (void**)&lines[j]);
 	}
       }
-      else if(flags & Rev) {
-	if(cmp(lines[i], lines[j]) < 0) {
+      else if(flags & REV) {
+	if(cmp(linesI, linesJ) < 0) {
 	   swap((void**)&lines[i], (void**)&lines[j]);
 	}
       }
-      else if(flags & Fold) {
-	strlower(lines[i]);
-	strlower(lines[j]);
-	if(cmp(lines[i], lines[j]) > 0) {
+      else if(flags & FOLD) {
+	strlower(linesI);
+	strlower(linesJ);
+	if(cmp(linesI, linesJ) > 0) {
 	  swap((void**)&lines[i], (void**)&lines[j]);
 	}
       }
       else {
-	if(cmp(lines[i], lines[j]) > 0) {
+	if(cmp(linesI, linesJ) > 0) {
 	  swap((void**)&lines[i], (void**)&lines[j]);
 	}
       }
