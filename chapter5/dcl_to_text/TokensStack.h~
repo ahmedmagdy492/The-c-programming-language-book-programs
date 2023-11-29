@@ -1,0 +1,44 @@
+#pragma once
+#define MAX_NO_TOKENS 1000
+
+typedef enum Tokens : short {
+	None,
+	PointerTo,
+	ArrayBrackets,
+	FunctionCall,
+	Name,
+	Number,
+	TypeInt,
+	TypeChar,
+	TypeShort,
+	TypeDouble,
+	TypeFloat,
+	EndOfLine,
+	OpenParenthis,
+	CloseParenthis
+} Tokens;
+
+static int top = 0;
+static Tokens tokens[MAX_NO_TOKENS];
+
+void Push(Tokens token) {
+	if (top < MAX_NO_TOKENS) {
+		tokens[top++] = token;
+	}
+}
+
+Tokens Pop(void) {
+	if (top > 0) {
+		return tokens[--top];
+	}
+
+	return None;
+}
+
+void PrintItems() {
+	int i;
+
+	for (i = 0; i < top; ++i) {
+		printf("%d\n", tokens[i]);
+	}
+}
