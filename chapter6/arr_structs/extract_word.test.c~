@@ -1,0 +1,5 @@
+#include "extract_word.h"
+
+int main(void) {
+  
+}

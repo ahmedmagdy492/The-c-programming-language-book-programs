@@ -1,0 +1,10 @@
+#pragma once
+#include <string.h>
+
+// NOTE: 1 static variable to keep track of the current position in the input string
+// String -> String
+// given a string return the next word (word is any chars between 2 spaces)
+
+char* extract_word(char* input) {
+  return '\0';
+}

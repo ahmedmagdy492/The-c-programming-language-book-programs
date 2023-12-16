@@ -1,0 +1,8 @@
+#include <stdio.h>
+
+#include "types.h"
+#include "binary_search.h"
+
+int main(void) {
+  printf("%d\n", sizeof(struct keyword_count));
+}

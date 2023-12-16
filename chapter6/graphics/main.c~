@@ -1,0 +1,10 @@
+#include <stdio.h>
+
+struct point { int x; int y; };
+
+int main(void) {
+  int x = 12, y = 23;
+  struct point point1 = { x, y };
+
+  printf("x = %d, y = %d\n", point1.x, point1.y);
+}
