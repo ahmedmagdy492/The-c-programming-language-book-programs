@@ -1,0 +1,14 @@
+#pragma once
+
+#define MAX_CHARS_IN_WORD 1000
+
+struct Pair {
+  int row;
+  int col;
+};
+
+struct WordRef {
+  char word[MAX_CHARS_IN_WORD];
+  struct Pair* crossref;
+  int crossref_len;
+};

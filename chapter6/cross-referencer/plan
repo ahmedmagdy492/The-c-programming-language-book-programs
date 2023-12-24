@@ -1,0 +1,19 @@
+
+container word_ref {
+	word: string,
+	indexes: int[]
+}
+
+String -> word_ref
+-get the next word
+-check if the word exists in the word tree
+-if not exist
+ - add it along with the current index of the first char
+-if exists
+ - add the index to the next empty slot in the indexes array
+
+my [0]
+name [3, 14]
+
+Examples:
+my name is ahmed my name is mona
