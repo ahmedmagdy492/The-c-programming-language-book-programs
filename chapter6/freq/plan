@@ -1,0 +1,14 @@
+Data definations:
+List of Words is string
+a string that contains a list of words seperated by space that might be repeated
+
+Word Count is a struct that contains:
+char word[max_chars]
+int count
+
+
+Function Design
+List of words -> Word Count
+takes a list of words and produces how many times a word has repeated
+
+

@@ -1,0 +1,34 @@
+
+#define MAX_LEN 100
+
+int arr[MAX_LEN] = {-1};
+
+static int hash(char* s) {
+  int index = 0;
+  char* temp = s;
+  
+  while(*s != '\0') {
+    index += *s;
+    ++s;
+  }
+
+  int final_index = (index % MAX_LEN);
+  
+  //printf("word = %s, index = %d\n", temp, final_index);
+  
+  return final_index;
+}
+
+int has_key(char* key) {
+  if(arr[hash(key)] == -1)
+    return 0;
+  return 1;
+}
+
+int get(char* key) {
+  return arr[hash(key)];
+}
+
+void set(char* key, int value) {
+  arr[hash(key)] = value;
+}

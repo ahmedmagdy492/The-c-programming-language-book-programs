@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include "bin_tree.h"
+#include "extract_word.h"
+#include "hashtable.h"
+
+#define MAX_WORD 100
+
+int main(int argc, char** argv) {
+  if(argc == 2) {
+    char word[MAX_WORD];
+    
+    while(extract_next_word(argv[1], word) != NULL) {
+      if(has_key(word)) {
+	int value = get(word);
+	value += 1;
+	set(word, value);
+      }
+      else {
+	set(word, 1);
+      }
+    }
+
+    reset_index();
+    Node* root = NULL;
+    
+    while(extract_next_word(argv[1], word) != NULL) {
+      struct WordCount word_count;
+      memset(&word_count, 0, sizeof(word_count));
+      memcpy(word_count.word, word, strlen(word));
+      word_count.count = get(word);
+      root = addtree(&word_count, root);
+    }
+    traverse_tree(root);
+
+    clear(root);
+  }
+  else {
+    printf("Usage: %s <input>\n", argv[0]);
+    return 1;
+  }
+
+  return 0;
+}

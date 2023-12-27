@@ -1,0 +1,22 @@
+#include <unity/unity.h>
+#include "../hashtable.h"
+
+void setUp() {
+
+}
+
+void test_calchashForCorrectOutput() {
+
+}
+
+void tearDown() {
+
+}
+
+int main() {
+  UNITY_BEGIN();
+
+  RUN_TEST();
+  
+  UNITY_END();
+}
