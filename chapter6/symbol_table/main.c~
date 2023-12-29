@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "hashtable.h"
+#include "extract_word.h"
+#define NWORD 100
+
+int main(int argc, char** argv) {
+  if(argc == 2) {
+    char word[NWORD];
+    struct nlist* defn = NULL;
+    while(extract_next_word(argv[1], word) != NULL) {
+      if((defn = lookup(word)) == NULL) {
+
+      }
+    }
+  }
+  else {
+    printf("Usage: %s <str>\n", argv[0]);
+    return 1;
+  }
+
+  return 0;
+}
