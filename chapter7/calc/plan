@@ -1,0 +1,15 @@
+Expreission: a set of symbols
+
+Symbol is one of:
+- Number
+- Operator: ['-', '+', '/', '*', '%']
+
+Steps:
+-Extract a Symbol from the Expression
+-if extracted symbol is a number:
+ -push to the stack
+-if extracted symbol is an operator:
+ -extract all numbers from stack
+ -determine the operation to be performed
+ -apply the specified operation
+ -print the result
